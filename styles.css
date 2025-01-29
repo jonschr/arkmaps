@@ -4,6 +4,9 @@ body {
 	overflow-y: auto; /* Allow scrolling */
 	font-family: Arial, sans-serif;
 	background: black;
+	max-width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 #map-container {
 	position: relative;
