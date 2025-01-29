@@ -56,7 +56,6 @@ dialog {
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	width: 300px; /* Set a fixed width for the dialog */
-	position: relative; /* Position relative for the close button */
 }
 dialog label {
 	font-size: 16px;

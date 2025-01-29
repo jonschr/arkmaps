@@ -106,6 +106,7 @@ mapContainer.addEventListener('mousemove', (event) => {
 
 // Click to add marker
 mapContainer.addEventListener('click', (event) => {
+	event.preventDefault(); // Prevent default behavior
 	if (currentMarkerIndex === null) {
 		// Only add if not editing
 		const rect = mapContainer.getBoundingClientRect();
@@ -182,16 +183,6 @@ function clearDialogInputs() {
 	descriptionInput.value = '';
 }
 
-// Close dialog on escape key
-document.addEventListener('keydown', (event) => {
-	if (event.key === 'Escape') {
-		dialog.close();
-		overlay.style.display = 'none';
-		clearDialogInputs();
-		currentMarkerIndex = null; // Reset index
-	}
-});
-
 // Save marker with Cmd/Ctrl + Enter
 document.addEventListener('keydown', (event) => {
 	if (
@@ -207,4 +198,12 @@ document.addEventListener('keydown', (event) => {
 window.onload = () => {
 	loadMarkers();
 	createGrid(); // Create the grid overlay
+
+	// Close dialog when clicking the close button (X)
+	document.getElementById('close-dialog').addEventListener('click', () => {
+		dialog.close();
+		overlay.style.display = 'none';
+		clearDialogInputs();
+		currentMarkerIndex = null; // Reset index
+	});
 };
