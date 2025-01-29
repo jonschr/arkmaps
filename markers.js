@@ -94,16 +94,6 @@ function saveMarkersToLocalStorage() {
 	localStorage.setItem('markers', JSON.stringify(markers));
 }
 
-// Show coordinates on hover
-mapContainer.addEventListener('mousemove', (event) => {
-	const rect = mapContainer.getBoundingClientRect();
-	const x = ((event.clientX - rect.left) / rect.width) * 100;
-	const y = ((event.clientY - rect.top) / rect.height) * 100;
-	coordinatesDisplay.textContent = `Latitude: ${y.toFixed(
-		2
-	)}, Longitude: ${x.toFixed(2)}`;
-});
-
 // Click to add marker
 mapContainer.addEventListener('click', (event) => {
 	event.preventDefault(); // Prevent default behavior
