@@ -99,9 +99,9 @@ mapContainer.addEventListener('mousemove', (event) => {
 	const rect = mapContainer.getBoundingClientRect();
 	const x = ((event.clientX - rect.left) / rect.width) * 100;
 	const y = ((event.clientY - rect.top) / rect.height) * 100;
-	coordinatesDisplay.textContent = `Coordinates: (${x.toFixed(
+	coordinatesDisplay.textContent = `Latitude: ${y.toFixed(
 		2
-	)}, ${y.toFixed(2)})`;
+	)}, Longitude: ${x.toFixed(2)}`;
 });
 
 // Click to add marker
@@ -198,12 +198,4 @@ document.addEventListener('keydown', (event) => {
 window.onload = () => {
 	loadMarkers();
 	createGrid(); // Create the grid overlay
-
-	// Close dialog when clicking the close button (X)
-	document.getElementById('close-dialog').addEventListener('click', () => {
-		dialog.close();
-		overlay.style.display = 'none';
-		clearDialogInputs();
-		currentMarkerIndex = null; // Reset index
-	});
 };
