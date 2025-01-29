@@ -21,16 +21,24 @@
 		<dialog id="dialog">
 			<button class="close-button" id="close-dialog">&times;</button>
 			<h3>Add/Update Marker</h3>
-			<label for="x">X Coordinate (0-100):</label>
-			<input type="number" id="x" min="0" max="100" required />
-			<label for="y">Y Coordinate (0-100):</label>
-			<input type="number" id="y" min="0" max="100" required />
-			<label for="z">Z Coordinate (0-100):</label>
-			<input type="number" id="z" min="0" max="100" required />
-			<label for="title">Marker Title:</label>
+			<div class="coords">
+				<fieldset>
+					<label for="x">Latitude</label>
+					<input type="number" id="x" min="0" max="100" required />
+				</fieldset>
+				<fieldset>
+					<label for="y">Longitude</label>
+					<input type="number" id="y" min="0" max="100" required />
+				</fieldset>
+				<fieldset>
+					<label for="z">Z (0-100)</label>
+					<input type="number" id="z" min="0" max="100" required />
+				</fieldset>
+			</div>
+			<label for="title">Marker name</label>
 			<input type="text" id="title" required autofocus />
 			<label for="description">Description:</label>
-			<textarea id="description"></textarea>
+			<textarea rows="5" id="description"></textarea>
 			<div class="dialog-buttons">
 				<button id="save-marker">Save Marker</button>
 				<button id="delete-marker">Delete Marker</button>
