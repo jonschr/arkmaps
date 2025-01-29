@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Ark Survival Ascended - Extinction Map</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<h1 style="display: none">Ark Survival Ascended - Extinction Map</h1>
+		<div id="map-container">
+			<div id="coordinates">Coordinates: (0, 0)</div>
+			<img
+				id="map"
+				src="./assets/img/extinction.jpeg"
+				alt="Extinction Map"
+			/>
+			<div class="grid" id="grid"></div>
+		</div>
+		<div id="overlay"></div>
+		<dialog id="dialog">
+			<button class="close-button" id="close-dialog">&times;</button>
+			<h3>Add/Update Marker</h3>
+			<label for="x">X Coordinate (0-100):</label>
+			<input type="number" id="x" min="0" max="100" required />
+			<label for="y">Y Coordinate (0-100):</label>
+			<input type="number" id="y" min="0" max="100" required />
+			<label for="z">Z Coordinate (0-100):</label>
+			<input type="number" id="z" min="0" max="100" required />
+			<label for="title">Marker Title:</label>
+			<input type="text" id="title" required autofocus />
+			<label for="description">Description:</label>
+			<textarea id="description"></textarea>
+			<div class="dialog-buttons">
+				<button id="save-marker">Save Marker</button>
+				<button id="delete-marker">Delete Marker</button>
+			</div>
+		</dialog>
+		<script src="grid.js"></script>
+		<script src="markers.js"></script>
+	</body>
+</html>

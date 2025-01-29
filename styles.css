@@ -1,0 +1,138 @@
+body {
+	margin: 0;
+	padding: 0;
+	overflow-y: auto; /* Allow scrolling */
+	font-family: Arial, sans-serif;
+	background: black;
+}
+#map-container {
+	position: relative;
+	width: 100vw;
+	height: auto; /* Allow height to adjust based on image aspect ratio */
+}
+#map {
+	width: 100%; /* Full width */
+	height: auto; /* Maintain aspect ratio */
+}
+.marker {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background-color: red; /* Red color */
+	border: 3px solid white; /* White outline */
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#coordinates {
+	position: fixed; /* Sticky position */
+	top: 10px;
+	left: 10px;
+	background: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+	border-radius: 5px;
+	font-weight: bold; /* Bolder text */
+	font-size: 16px; /* Larger font size */
+	z-index: 100; /* Ensure it stays on top */
+}
+.marker-coordinates {
+	position: absolute;
+	top: 25px; /* Position below the marker */
+	left: -10px; /* Center below the marker */
+	font-size: 12px; /* Smaller font size */
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 3px;
+	padding: 2px 5px;
+	display: none; /* Initially hidden */
+}
+.marker:hover .marker-coordinates {
+	display: block; /* Show on hover */
+}
+dialog {
+	padding: 20px;
+	border: none;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	width: 300px; /* Set a fixed width for the dialog */
+	position: relative; /* Position relative for the close button */
+}
+dialog h3 {
+	margin: 0 0 10px 0;
+}
+dialog input,
+dialog textarea {
+	width: calc(100% - 20px); /* Fill available space */
+	margin-bottom: 10px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+dialog button {
+	margin: 5px 0; /* Small margin for spacing */
+	padding: 8px; /* Add padding for a better button appearance */
+	border: 1px solid #ccc; /* Add border to match other inputs */
+	border-radius: 4px; /* Rounded corners */
+	background-color: #f0f0f0; /* Light background color */
+	cursor: pointer; /* Pointer cursor on hover */
+	flex: 1; /* Make buttons fill available space */
+}
+.dialog-buttons {
+	display: flex; /* Use flexbox for button layout */
+	justify-content: space-between; /* Space between buttons */
+}
+dialog button:hover {
+	background-color: #e0e0e0; /* Darker background on hover */
+}
+#overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+.grid {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none; /* Allow clicks to pass through */
+}
+.grid-line {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.5); /* Light grid color */
+}
+.grid-label {
+	position: absolute;
+	font-size: 16px; /* Increased font size */
+	font-weight: bold; /* Bold text */
+	color: rgba(255, 255, 255, 0.8); /* Light color for labels */
+	pointer-events: none; /* Allow clicks to pass through */
+}
+.grid-label-left {
+	left: 10px;
+	transform: translateY(-50%);
+}
+.grid-label-bottom {
+	bottom: 10px;
+	transform: translateX(-50%);
+	position: fixed;
+}
+.close-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: none;
+	border: none;
+	font-size: 18px;
+	cursor: pointer;
+	color: #888; /* Light gray color */
+}
+.close-button:hover {
+	color: #000; /* Darker color on hover */
+}
