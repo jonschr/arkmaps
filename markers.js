@@ -78,14 +78,47 @@ function loadMarkers() {
 	markers.forEach((marker) => {
 		console.log(
 			`Loading marker: ${marker.title} at (${marker.x}, ${marker.y})`
-		); // Debugging log
-		addMarker(
-			marker.x,
-			marker.y,
-			marker.z,
-			marker.title,
-			marker.description
 		);
+
+		// Create marker element without saving to localStorage again
+		const markerElement = document.createElement('div');
+		markerElement.className = 'marker';
+		markerElement.style.left = `${
+			(marker.x / 100) * mapContainer.clientWidth
+		}px`;
+		markerElement.style.top = `${
+			(marker.y / 100) * mapContainer.clientHeight
+		}px`;
+		markerElement.title = `${marker.title}: ${marker.description}`;
+
+		const markerCoordinates = document.createElement('div');
+		markerCoordinates.className = 'marker-coordinates';
+		markerCoordinates.textContent = `(${marker.x.toFixed(
+			2
+		)}, ${marker.y.toFixed(2)})`;
+		markerElement.appendChild(markerCoordinates);
+
+		markerElement.addEventListener('click', () => {
+			currentMarkerIndex = markers.findIndex(
+				(m) =>
+					m.title === marker.title &&
+					m.x === marker.x &&
+					m.y === marker.y
+			);
+			if (currentMarkerIndex !== -1) {
+				xInput.value = marker.x.toFixed(2);
+				yInput.value = marker.y.toFixed(2);
+				zInput.value = marker.z.toFixed(2);
+				titleInput.value = marker.title;
+				descriptionInput.value = marker.description;
+				dialog.showModal();
+				overlay.style.display = 'block';
+				titleInput.focus();
+			}
+		});
+
+		mapContainer.appendChild(markerElement);
+		markerElements.push(markerElement);
 	});
 }
 
