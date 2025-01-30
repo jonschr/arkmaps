@@ -33,7 +33,12 @@ p {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 10;
 	transform: translateY(-50%) translateX(-50%);
+}
+
+.static-marker.active {
+	z-index: 15;
 }
 
 .dynamic-marker {
@@ -53,12 +58,13 @@ p {
 	position: fixed; /* Sticky position */
 	top: 10px;
 	left: 10px;
-	background: rgba(255, 255, 255, 0.8);
-	padding: 10px;
+	background: white;
+	padding: 10px 15px;
 	border-radius: 5px;
-	font-weight: bold; /* Bolder text */
 	font-size: 16px; /* Larger font size */
 	z-index: 100; /* Ensure it stays on top */
+	line-height: 1;
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
 }
 .marker-coordinates {
 	position: absolute;
@@ -204,13 +210,18 @@ dialog button:hover {
 	text-align: center;
 	min-width: 70px;
 	text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	z-index: 10;
+}
+
+.static-marker .static-marker-label {
+	pointer-events: none;
 }
 
 .static-marker .static-marker-label-hover {
 	background-color: rgba(0, 0, 0, 0.8);
 	border-radius: 5px;
-	padding: 5px;
-	font-size: 20px;
+	padding: 15px;
+	font-size: 18px;
 	display: block;
 	position: absolute;
 	top: 50%;
@@ -220,6 +231,11 @@ dialog button:hover {
 	text-align: center;
 	opacity: 0;
 	pointer-events: none;
+	min-width: 200px;
+}
+
+.static-marker .static-marker-label-hover p:last-child {
+	margin-bottom: 0;
 }
 
 .static-marker.active .static-marker-label-hover {
@@ -232,6 +248,7 @@ dialog button:hover {
 	display: flex;
 	gap: 5px;
 	align-items: center;
+	margin-top: 10px;
 }
 
 .static-marker .static-marker-label-hover p.coordinates span {
