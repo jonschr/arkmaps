@@ -8,6 +8,11 @@ body {
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
+
+p {
+	margin: 0 0 5px;
+	line-height: 1;
+}
 #map-container {
 	position: relative;
 	width: 100vw;
@@ -199,6 +204,45 @@ dialog button:hover {
 	text-align: center;
 	min-width: 70px;
 	text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.static-marker .static-marker-label-hover {
+	background-color: rgba(0, 0, 0, 0.8);
+	border-radius: 5px;
+	padding: 5px;
+	font-size: 20px;
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	color: white;
+	text-align: center;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.static-marker:hover .static-marker-label-hover,
+.static-marker .static-marker-label-hover:hover,
+.static-marker.active .static-marker-label-hover {
+	pointer-events: all;
+	opacity: 1;
+	z-index: 9999999;
+}
+
+.static-marker .static-marker-label-hover p.coordinates {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.static-marker .static-marker-label-hover p.coordinates span {
+	display: inline-block;
+	background-color: #333;
+	border-radius: 3px;
+	padding: 5px 10px;
+	font-size: 18px;
+	width: 100%;
 }
 
 #filter-container {

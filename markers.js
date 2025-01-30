@@ -129,7 +129,16 @@ function saveMarkersToLocalStorage() {
 
 // Click to add a dynamic marker
 mapContainer.addEventListener('click', (event) => {
+	// Ensure clicking lat/long does not trigger the dialog
+	if (
+		event.target.classList.contains('lat') ||
+		event.target.classList.contains('long')
+	) {
+		return; // Stop execution if clicking lat/long
+	}
+
 	event.preventDefault(); // Prevent default behavior
+
 	if (currentMarkerIndex === null) {
 		// Only add if not editing
 		const rect = mapContainer.getBoundingClientRect();
