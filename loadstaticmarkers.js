@@ -113,16 +113,11 @@ document.addEventListener('click', (event) => {
 	}
 });
 
-// Add active class to the parent .static-marker
-document.addEventListener('click', (event) => {
-	const staticMarkers = document.querySelectorAll('.static-marker');
-	staticMarkers.forEach((marker) => {
-		if (marker.contains(event.target)) {
-			marker.classList.add('active');
-		} else {
-			marker.classList.remove('active');
-		}
-	});
+document.addEventListener('mouseover', (event) => {
+	const staticMarker = event.target.closest('.static-marker');
+	if (staticMarker) {
+		staticMarker.classList.add('active');
+	}
 });
 
 // Remove active class when clicking outside .static-marker or pressing Esc
@@ -130,6 +125,17 @@ document.addEventListener('click', (event) => {
 	if (!event.target.closest('.static-marker')) {
 		document.querySelectorAll('.static-marker.active').forEach((marker) => {
 			marker.classList.remove('active');
+		});
+	}
+});
+
+// Remove active class when hovering over another .static-marker
+document.addEventListener('mouseover', (event) => {
+	if (event.target.closest('.static-marker')) {
+		document.querySelectorAll('.static-marker.active').forEach((marker) => {
+			if (marker !== event.target.closest('.static-marker')) {
+				marker.classList.remove('active');
+			}
 		});
 	}
 });

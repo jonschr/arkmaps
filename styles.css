@@ -222,8 +222,6 @@ dialog button:hover {
 	pointer-events: none;
 }
 
-.static-marker:hover .static-marker-label-hover,
-.static-marker .static-marker-label-hover:hover,
 .static-marker.active .static-marker-label-hover {
 	pointer-events: all;
 	opacity: 1;
