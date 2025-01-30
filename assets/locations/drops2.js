@@ -11,7 +11,7 @@ window.staticLocations.push(
 		label: 'Purple OSD drop',
 		long: 25.5,
 		lat: 59.3,
-		category: 'OSD drops (v2)',
+		category: 'OSD drops',
 		color: '#000000',
 	}
 );
