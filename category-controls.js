@@ -2,16 +2,27 @@ function createCategoryFilters() {
 	const filterContainer = document.getElementById('filter-container');
 	if (!filterContainer) return;
 
+	// Function to get saved state from localStorage
+	function getCheckboxState(category) {
+		return localStorage.getItem(`filter_${category}`) !== 'false';
+	}
+
+	// Function to save state to localStorage
+	function saveCheckboxState(category, state) {
+		localStorage.setItem(`filter_${category}`, state);
+	}
+
 	// Add checkbox for dynamic markers
 	const dynamicLabel = document.createElement('label');
 	dynamicLabel.textContent = 'User-added markers';
 
 	const dynamicCheckbox = document.createElement('input');
 	dynamicCheckbox.type = 'checkbox';
-	dynamicCheckbox.checked = true;
-	dynamicCheckbox.addEventListener('change', () =>
-		toggleCategory('dynamic-marker', dynamicCheckbox.checked)
-	);
+	dynamicCheckbox.checked = getCheckboxState('dynamic-marker');
+	dynamicCheckbox.addEventListener('change', () => {
+		saveCheckboxState('dynamic-marker', dynamicCheckbox.checked);
+		toggleCategory('dynamic-marker', dynamicCheckbox.checked);
+	});
 
 	dynamicLabel.prepend(dynamicCheckbox);
 	filterContainer.appendChild(dynamicLabel);
@@ -28,14 +39,21 @@ function createCategoryFilters() {
 
 		const checkbox = document.createElement('input');
 		checkbox.type = 'checkbox';
-		checkbox.checked = true;
-		checkbox.addEventListener('change', () =>
-			toggleCategory(categoryClass, checkbox.checked)
-		);
+		checkbox.checked = getCheckboxState(categoryClass);
+		checkbox.addEventListener('change', () => {
+			saveCheckboxState(categoryClass, checkbox.checked);
+			toggleCategory(categoryClass, checkbox.checked);
+		});
 
 		label.prepend(checkbox);
 		filterContainer.appendChild(label);
+
+		// Apply the saved state on page load
+		toggleCategory(categoryClass, checkbox.checked);
 	});
+
+	// Ensure dynamic marker state is applied on page load
+	toggleCategory('dynamic-marker', dynamicCheckbox.checked);
 }
 
 function toggleCategory(categoryClass, isVisible) {
