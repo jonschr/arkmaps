@@ -41,3 +41,8 @@ function createGrid() {
 		gridContainer.appendChild(label);
 	}
 }
+
+// Load markers on page load
+document.addEventListener('DOMContentLoaded', () => {
+	createGrid();
+});

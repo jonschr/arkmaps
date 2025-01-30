@@ -17,11 +17,24 @@ body {
 	width: 100%; /* Full width */
 	height: auto; /* Maintain aspect ratio */
 }
-.marker {
+.static-marker {
 	position: absolute;
 	width: 20px;
 	height: 20px;
 	background-color: red; /* Red color */
+	border: 3px solid black; /* White outline */
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.dynamic-marker {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background-color: orange; /* Blue color */
 	border: 3px solid white; /* White outline */
 	border-radius: 50%;
 	cursor: pointer;
@@ -166,4 +179,39 @@ dialog button:hover {
 .close-button:hover {
 	color: #222; /* Darker color on hover */
 	background-color: white;
+}
+
+.static-marker .static-marker-label {
+	color: white;
+	font-size: 12px;
+	font-weight: normal;
+	border-radius: 3px;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	top: auto;
+	transform: translateY(100%);
+	padding: 3px 5px;
+	line-height: 1;
+	text-align: center;
+	min-width: 70px;
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+#filter-container {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: white;
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+	padding: 15px;
+	border-radius: 3px;
+	z-index: 9999999999999;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 3px;
+}
+
+#filter-container label {
+	/* display: block; */
 }
