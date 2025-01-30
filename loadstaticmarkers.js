@@ -39,10 +39,10 @@ function addStaticMarker(location, container) {
 	const staticMarker = document.createElement('div');
 	staticMarker.className = 'static-marker';
 	staticMarker.style.left = `${
-		(location.lat / 100) * container.clientWidth
+		(location.long / 100) * container.clientWidth
 	}px`;
 	staticMarker.style.top = `${
-		(location.long / 100) * container.clientHeight
+		(location.lat / 100) * container.clientHeight
 	}px`;
 	staticMarker.style.backgroundColor = location.color;
 
