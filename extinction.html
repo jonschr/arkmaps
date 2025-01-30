@@ -46,14 +46,16 @@
 				<button id="delete-marker">Delete Marker</button>
 			</div>
 		</dialog>
-		<!-- locations -->
-		<script src="./assets/locations/drops.js"></script>
-
-		<!-- scripts-->
-
-		<script src="grid.js"></script>
+		<script>
+			// require these data files to be loaded before the staticmarkers file.
+			const dataFiles = [
+				'assets/locations/extinction/drops.js',
+				'assets/locations/extinction/bobs-notes.js',
+			];
+		</script>
 		<script src="loadstaticmarkers.js"></script>
 		<script src="markers.js"></script>
+		<script src="grid.js"></script>
 		<script src="showcoords.js"></script>
 		<script src="reload-page-after-resize.js"></script>
 		<script src="category-controls.js"></script>
