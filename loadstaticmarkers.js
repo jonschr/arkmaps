@@ -1,4 +1,4 @@
-const dataFiles = ['assets/locations/drops.js'];
+const dataFiles = ['assets/locations/drops.js', 'assets/locations/drops2.js'];
 
 function loadStaticMarkers() {
 	console.log('Loading static markers...');
