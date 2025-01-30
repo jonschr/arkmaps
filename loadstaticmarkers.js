@@ -2,6 +2,11 @@ function loadStaticMarkers() {
 	console.log('Loading static markers...');
 	const staticMapContainer = document.getElementById('map-container');
 
+	if (!Array.isArray(dataFiles) || dataFiles.length === 0) {
+		console.error('No data files provided for static markers.');
+		return;
+	}
+
 	let scriptsLoaded = 0;
 	dataFiles.forEach((file) => {
 		const script = document.createElement('script');
@@ -10,7 +15,6 @@ function loadStaticMarkers() {
 			console.log(`${file} loaded`);
 			scriptsLoaded++;
 
-			// Once all scripts are loaded, process locations
 			if (scriptsLoaded === dataFiles.length) {
 				processStaticMarkers(staticMapContainer);
 				createCategoryFilters();
@@ -21,37 +25,46 @@ function loadStaticMarkers() {
 }
 
 function processStaticMarkers(container) {
-	if (window.staticLocations && window.staticLocations.length > 0) {
-		console.log(
-			`Processing ${window.staticLocations.length} static markers`
-		);
-		window.staticLocations.forEach((location) =>
-			addStaticMarker(location, container)
-		);
-	} else {
-		console.warn('No static locations found');
+	if (!window.staticLocations || window.staticLocations.length === 0) {
+		console.warn('No static locations found.');
+		return;
 	}
+
+	console.log(`Processing ${window.staticLocations.length} static markers`);
+	window.staticLocations.forEach((location) =>
+		addStaticMarker(location, container)
+	);
 }
 
 function addStaticMarker(location, container) {
 	const staticMarker = document.createElement('div');
 	staticMarker.className = 'static-marker';
+	staticMarker.dataset.lat = location.lat;
+	staticMarker.dataset.long = location.long;
+
+	// Position the marker
 	staticMarker.style.left = `${
 		(location.long / 100) * container.clientWidth
 	}px`;
 	staticMarker.style.top = `${
 		(location.lat / 100) * container.clientHeight
 	}px`;
-	staticMarker.style.backgroundColor = location.color;
 
-	if (location.category) {
-		const categoryClass = location.category
-			.toLowerCase()
-			.replace(/\s+/g, '-');
-		staticMarker.classList.add(categoryClass);
+	// Apply the color dynamically
+	if (location.color) {
+		staticMarker.style.backgroundColor = location.color;
 	}
 
-	staticMarker.title = location.label;
+	// Add category class if it exists
+	const sanitizeClassName = (name) =>
+		name.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+	if (location.category) {
+		staticMarker.classList.add(sanitizeClassName(location.category));
+	}
+
+	// Add accessibility attributes
+	staticMarker.setAttribute('role', 'button');
+	staticMarker.setAttribute('aria-label', location.label);
 
 	// Create label element
 	const label = document.createElement('div');
@@ -84,8 +97,29 @@ function addStaticMarker(location, container) {
 	hoverLabel.appendChild(coords);
 	staticMarker.appendChild(hoverLabel);
 
+	// Add hover functionality
+	staticMarker.addEventListener('mouseover', () => {
+		staticMarker.classList.add('active');
+	});
+
+	staticMarker.addEventListener('mouseout', () => {
+		staticMarker.classList.remove('active');
+	});
+
 	container.appendChild(staticMarker);
 }
+
+window.addEventListener('resize', () => {
+	const staticMapContainer = document.getElementById('map-container');
+	document.querySelectorAll('.static-marker').forEach((marker) => {
+		const lat = parseFloat(marker.dataset.lat);
+		const long = parseFloat(marker.dataset.long);
+		marker.style.left = `${
+			(long / 100) * staticMapContainer.clientWidth
+		}px`;
+		marker.style.top = `${(lat / 100) * staticMapContainer.clientHeight}px`;
+	});
+});
 
 window.addEventListener('load', loadStaticMarkers);
 
@@ -111,29 +145,11 @@ document.addEventListener('click', (event) => {
 	}
 });
 
-document.addEventListener('mouseover', (event) => {
-	const staticMarker = event.target.closest('.static-marker');
-	if (staticMarker) {
-		staticMarker.classList.add('active');
-	}
-});
-
 // Remove active class when clicking outside .static-marker or pressing Esc
 document.addEventListener('click', (event) => {
 	if (!event.target.closest('.static-marker')) {
 		document.querySelectorAll('.static-marker.active').forEach((marker) => {
 			marker.classList.remove('active');
-		});
-	}
-});
-
-// Remove active class when hovering over another .static-marker
-document.addEventListener('mouseover', (event) => {
-	if (event.target.closest('.static-marker')) {
-		document.querySelectorAll('.static-marker.active').forEach((marker) => {
-			if (marker !== event.target.closest('.static-marker')) {
-				marker.classList.remove('active');
-			}
 		});
 	}
 });
