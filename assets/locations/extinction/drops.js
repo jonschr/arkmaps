@@ -113,7 +113,7 @@ window.staticLocations.push(
 		color: '#800080', // Purple
 	},
 	{
-		label: 'Red/50k',
+		label: 'Purple/Red/50k',
 		lat: 51.2,
 		long: 13.6,
 		category: 'Drops and Veins',
