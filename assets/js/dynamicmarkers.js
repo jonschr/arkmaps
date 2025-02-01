@@ -13,12 +13,32 @@ const deleteMarkerButton = document.getElementById('delete-marker');
 let clickX = 0;
 let clickY = 0;
 let currentMarkerIndex = null; // Track the current marker index for updates
-let dynamicMarkers = []; // Store markers in an array
+let dynamicMarkers =
+	JSON.parse(localStorage.getItem(`dynamicMarkers:${getMapName()}`)) || []; // Initialize with namespaced markers
 let dynamicMarkerElements = []; // Store marker DOM elements
+
+// Function to get the current map name from the URL
+function getMapName() {
+	// Get the current path
+	const path = window.location.pathname;
+
+	// Remove .html extension and any directory names
+	const fileName = path.split('/').pop();
+	const mapName = fileName.replace('.html', '');
+
+	return mapName;
+}
 
 // Function to add a dynamic marker
 function addDynamicMarker(x, y, z, title, description) {
-	console.log(`Adding marker: ${title} at (${x}, ${y})`); // Debugging log
+	console.log(`Adding marker: ${title} at (${x}, ${y})`);
+
+	// Check if marker already exists
+	const markerKey = `${title}-${x}-${y}`;
+	if (dynamicMarkers.some((m) => `${m.title}-${m.x}-${m.y}` === markerKey)) {
+		console.log('Marker already exists');
+		return;
+	}
 
 	// Create a new marker element
 	const dynamicMarker = document.createElement('div');
@@ -99,15 +119,23 @@ function attachMarkerEvents(markerElement, markerData) {
 	});
 }
 
-// Load dynamic markers from local storage
+// Load dynamic markers from local storage without duplicates
 function loadDynamicMarkers() {
-	dynamicMarkers = JSON.parse(localStorage.getItem('dynamicMarkers')) || [];
+	const mapName = getMapName();
+	const storageKey = `dynamicMarkers:${mapName}`;
 
-	// Remove duplicates
+	const storedMarkers = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+	// Clear existing markers
+	dynamicMarkerElements.forEach((marker) => marker.remove());
+	dynamicMarkers = [];
+	dynamicMarkerElements = [];
+
+	// Add unique markers
 	const uniqueMarkers = [];
 	const uniqueTitles = new Set();
 
-	dynamicMarkers.forEach((marker) => {
+	storedMarkers.forEach((marker) => {
 		const markerKey = `${marker.title}-${marker.x}-${marker.y}`;
 		if (!uniqueTitles.has(markerKey)) {
 			uniqueTitles.add(markerKey);
@@ -115,14 +143,11 @@ function loadDynamicMarkers() {
 		}
 	});
 
-	// Clear the existing markers array and add unique markers
-	dynamicMarkers = uniqueMarkers;
-	dynamicMarkers.forEach((marker) => {
+	// Add each unique marker
+	uniqueMarkers.forEach((marker) => {
 		console.log(
 			`Loading marker: ${marker.title} at (${marker.x}, ${marker.y})`
 		);
-
-		// Add the marker with the updated function
 		addDynamicMarker(
 			marker.x,
 			marker.y,
@@ -135,7 +160,9 @@ function loadDynamicMarkers() {
 
 // Save dynamic markers to local storage
 function saveMarkersToLocalStorage() {
-	localStorage.setItem('dynamicMarkers', JSON.stringify(dynamicMarkers));
+	const mapName = getMapName();
+	const storageKey = `dynamicMarkers:${mapName}`;
+	localStorage.setItem(storageKey, JSON.stringify(dynamicMarkers));
 }
 
 // Recalculate marker positions on window resize
