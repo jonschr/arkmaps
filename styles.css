@@ -28,8 +28,7 @@ p {
 }
 
 /* Static Marker Styles */
-.static-marker,
-.dynamic-marker {
+.marker {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -47,8 +46,7 @@ p {
 		z-index: 15;
 	}
 
-	.static-marker-label,
-	.dynamic-marker-label {
+	.marker-label {
 		color: white;
 		font-size: 12px;
 		font-weight: normal;
@@ -67,8 +65,7 @@ p {
 		pointer-events: none;
 	}
 
-	.static-marker-label-hover,
-	.dynamic-marker-label-hover {
+	.marker-label-hover {
 		background-color: rgba(0, 0, 0, 0.8);
 		border-radius: 5px;
 		padding: 15px;
@@ -105,8 +102,7 @@ p {
 		}
 	}
 
-	&.active .static-marker-label-hover,
-	&.active .dynamic-marker-label-hover {
+	&.active marker-label-hover {
 		pointer-events: all;
 		opacity: 1;
 		z-index: 9999999;
@@ -117,6 +113,10 @@ p {
 .dynamic-marker {
 	background-color: orange; /* Default color */
 	border: 3px solid white; /* White outline */
+}
+
+.static-marker {
+	border: 3px solid black;
 }
 
 /* Coordinates Display */
