@@ -1,14 +1,14 @@
 window.staticLocations = window.staticLocations || [];
 window.staticLocations.push(
 	{
-		label: 'Purple OSD drop',
+		label: 'Purple',
 		lat: 33.6,
 		long: 59.2,
 		category: 'Drops and Veins',
 		color: '#800080', // Purple
 	},
 	{
-		label: 'Purple OSD drop',
+		label: 'Purple',
 		lat: 25.5,
 		long: 59.3,
 		category: 'Drops and Veins',
@@ -123,6 +123,13 @@ window.staticLocations.push(
 		label: 'Purple/Red/50k',
 		lat: 53.2,
 		long: 9.2,
+		category: 'Drops and Veins',
+		color: '#800080', // Purple
+	},
+	{
+		label: 'Purple',
+		lat: 37.6,
+		long: 72.9,
 		category: 'Drops and Veins',
 		color: '#800080', // Purple
 	},
