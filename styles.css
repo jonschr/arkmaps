@@ -194,6 +194,7 @@ dialog {
 	}
 
 	.dialog-buttons {
+		margin-top: 15px;
 		display: flex; /* Use flexbox for button layout */
 		justify-content: space-between; /* Space between buttons */
 		gap: 5px;
@@ -297,4 +298,61 @@ dialog {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 3px;
+}
+
+.color-selection {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.color-presets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	max-width: 200px;
+}
+
+.color-preset {
+	width: 25px;
+	height: 25px;
+	border: 2px solid #fff;
+	border-radius: 4px;
+	cursor: pointer;
+	padding: 0;
+	transition: transform 0.1s ease;
+}
+
+#marker-color {
+	width: 25px;
+}
+
+.color-preset:hover {
+	transform: scale(1.1);
+}
+
+.color-preset.active {
+	border-color: #000;
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+}
+
+.filter-section {
+	margin-bottom: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid #ccc;
+}
+
+.filter-section:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.sub-category {
+	/* margin-left: 0.5rem; */
+}
+
+.filter-section label {
+	display: block;
+	/* margin-bottom: 0.2rem; */
 }

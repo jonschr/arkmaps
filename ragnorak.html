@@ -37,6 +37,79 @@
 			</div>
 			<label for="description">Description:</label>
 			<textarea rows="5" id="description"></textarea>
+			<label for="category">Category:</label>
+			<input type="text" id="category" list="categories" />
+			<datalist id="categories">
+				<!-- This will be populated dynamically -->
+			</datalist>
+
+			<label for="marker-color">Color:</label>
+			<div class="color-selection">
+				<input type="color" id="marker-color" value="#ff0000" />
+				<div class="color-presets">
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#ff0000"
+						style="background-color: #ff0000"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#00ff00"
+						style="background-color: #00ff00"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#0000ff"
+						style="background-color: #0000ff"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#ffff00"
+						style="background-color: #ffff00"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#ff00ff"
+						style="background-color: #ff00ff"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#00ffff"
+						style="background-color: #00ffff"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#ff8800"
+						style="background-color: #ff8800"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#8800ff"
+						style="background-color: #8800ff"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#ff0088"
+						style="background-color: #ff0088"
+					></button>
+					<button
+						type="button"
+						class="color-preset"
+						data-color="#00ff88"
+						style="background-color: #00ff88"
+					></button>
+				</div>
+			</div>
+
 			<div class="dialog-buttons">
 				<button id="save-marker">Save Marker</button>
 				<button id="delete-marker">Delete Marker</button>
