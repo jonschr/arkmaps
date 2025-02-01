@@ -1,3 +1,4 @@
+// markers-static.js
 function loadStaticMarkers() {
 	console.log('Loading static markers...');
 	const staticMapContainer = document.getElementById('map-container');
@@ -42,7 +43,6 @@ function addStaticMarker(location, container) {
 	staticMarker.dataset.lat = location.lat;
 	staticMarker.dataset.long = location.long;
 
-	// Position the marker
 	staticMarker.style.left = `${
 		(location.long / 100) * container.clientWidth
 	}px`;
@@ -50,29 +50,24 @@ function addStaticMarker(location, container) {
 		(location.lat / 100) * container.clientHeight
 	}px`;
 
-	// Apply the color dynamically
 	if (location.color) {
 		staticMarker.style.backgroundColor = location.color;
 	}
 
-	// Add category class if it exists
 	const sanitizeClassName = (name) =>
 		name.toLowerCase().replace(/[^a-z0-9-]/g, '-');
 	if (location.category) {
 		staticMarker.classList.add(sanitizeClassName(location.category));
 	}
 
-	// Add accessibility attributes
 	staticMarker.setAttribute('role', 'button');
 	staticMarker.setAttribute('aria-label', location.label);
 
-	// Create label element
 	const label = document.createElement('div');
 	label.className = 'marker-label static-marker-label';
 	label.textContent = location.label;
 	staticMarker.appendChild(label);
 
-	// Create hover label element
 	const hoverLabel = document.createElement('div');
 	hoverLabel.className = 'marker-label-hover static-marker-label-hover';
 
@@ -97,42 +92,25 @@ function addStaticMarker(location, container) {
 	hoverLabel.appendChild(coords);
 	staticMarker.appendChild(hoverLabel);
 
-	// Add hover functionality
 	staticMarker.addEventListener('mouseover', () => {
-		// Deactivate any currently active marker
-		document.querySelectorAll('.static-marker.active').forEach((marker) => {
-			if (marker !== staticMarker) {
-				marker.classList.remove('active');
-			}
-		});
-
-		// Activate the current marker
-		staticMarker.classList.add('active');
-	});
-
-	// Prevent `mouseout` from deactivating the marker
-	// (The marker will only deactivate when another marker is hovered or Escape is pressed)
-	staticMarker.addEventListener('mouseout', () => {
-		// Do nothing here to keep the marker active
+		window.markerUtils.activateMarker(staticMarker);
 	});
 
 	container.appendChild(staticMarker);
 }
 
-// Remove active class when clicking outside .static-marker or pressing Esc
 document.addEventListener('click', (event) => {
-	if (!event.target.closest('.static-marker')) {
-		document.querySelectorAll('.static-marker.active').forEach((marker) => {
-			marker.classList.remove('active');
-		});
+	if (
+		!event.target.closest('.dynamic-marker') &&
+		!event.target.closest('.static-marker')
+	) {
+		window.markerUtils.deactivateAllMarkers();
 	}
 });
 
 document.addEventListener('keydown', (event) => {
 	if (event.key === 'Escape') {
-		document.querySelectorAll('.static-marker.active').forEach((marker) => {
-			marker.classList.remove('active');
-		});
+		window.markerUtils.deactivateAllMarkers();
 	}
 });
 
@@ -150,7 +128,6 @@ window.addEventListener('resize', () => {
 
 window.addEventListener('load', loadStaticMarkers);
 
-// Prevent dialog from opening when clicking lat/long
 document.addEventListener('click', (event) => {
 	if (
 		event.target.classList.contains('lat') ||

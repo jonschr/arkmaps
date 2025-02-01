@@ -1,3 +1,4 @@
+// markers-dynamic.js
 const mapContainer = document.getElementById('map-container');
 const coordinatesDisplay = document.getElementById('coordinates');
 const dialog = document.getElementById('dialog');
@@ -12,48 +13,38 @@ const deleteMarkerButton = document.getElementById('delete-marker');
 
 let clickX = 0;
 let clickY = 0;
-let currentMarkerIndex = null; // Track the current marker index for updates
+let currentMarkerIndex = null;
 let dynamicMarkers =
-	JSON.parse(localStorage.getItem(`dynamicMarkers:${getMapName()}`)) || []; // Initialize with namespaced markers
-let dynamicMarkerElements = []; // Store marker DOM elements
+	JSON.parse(localStorage.getItem(`dynamicMarkers:${getMapName()}`)) || [];
+let dynamicMarkerElements = [];
 
-// Function to get the current map name from the URL
 function getMapName() {
-	// Get the current path
 	const path = window.location.pathname;
-
-	// Remove .html extension and any directory names
 	const fileName = path.split('/').pop();
 	const mapName = fileName.replace('.html', '');
-
 	return mapName;
 }
 
-// Function to add a dynamic marker
 function addDynamicMarker(x, y, z, title, description) {
 	console.log(`Adding marker: ${title} at (${x}, ${y})`);
 
-	// Check if marker already exists
 	const markerKey = `${title}-${x}-${y}`;
 	if (dynamicMarkers.some((m) => `${m.title}-${m.x}-${m.y}` === markerKey)) {
 		console.log('Marker already exists');
 		return;
 	}
 
-	// Create a new marker element
 	const dynamicMarker = document.createElement('div');
 	dynamicMarker.className = 'dynamic-marker';
 	dynamicMarker.style.left = `${(x / 100) * mapContainer.clientWidth}px`;
 	dynamicMarker.style.top = `${(y / 100) * mapContainer.clientHeight}px`;
 	dynamicMarker.title = `${title}: ${description}`;
 
-	// Create label element
 	const label = document.createElement('div');
 	label.className = 'marker-label dynamic-marker-label';
 	label.textContent = title;
 	dynamicMarker.appendChild(label);
 
-	// Create hover label element
 	const hoverLabel = document.createElement('div');
 	hoverLabel.className = 'marker-label-hover dynamic-marker-label-hover';
 
@@ -78,70 +69,33 @@ function addDynamicMarker(x, y, z, title, description) {
 	hoverLabel.appendChild(hoverCoords);
 	dynamicMarker.appendChild(hoverLabel);
 
-	// Add hover functionality
 	dynamicMarker.addEventListener('mouseover', () => {
-		// Deactivate any currently active marker
-		document
-			.querySelectorAll('.dynamic-marker.active')
-			.forEach((marker) => {
-				if (marker !== dynamicMarker) {
-					marker.classList.remove('active');
-				}
-			});
-
-		// Activate the current marker
-		dynamicMarker.classList.add('active');
+		window.markerUtils.activateMarker(dynamicMarker);
 	});
 
-	// Prevent `mouseout` from deactivating the marker
-	// (The marker will only deactivate when another marker is hovered or Escape is pressed)
-	dynamicMarker.addEventListener('mouseout', () => {
-		// Do nothing here to keep the marker active
-	});
-
-	// Attach event listeners to the marker
 	attachMarkerEvents(dynamicMarker, { x, y, z, title, description });
 
-	// Append the marker to the map container
 	mapContainer.appendChild(dynamicMarker);
 	dynamicMarkers.push({ x, y, z, title, description });
-	dynamicMarkerElements.push(dynamicMarker); // Store the marker element
+	dynamicMarkerElements.push(dynamicMarker);
 	saveMarkersToLocalStorage();
 }
 
-// Remove active class when clicking outside .dynamic-marker or pressing Esc
 document.addEventListener('click', (event) => {
-	if (!event.target.closest('.dynamic-marker')) {
-		document
-			.querySelectorAll('.dynamic-marker.active')
-			.forEach((marker) => {
-				marker.classList.remove('active');
-			});
+	if (
+		!event.target.closest('.dynamic-marker') &&
+		!event.target.closest('.static-marker')
+	) {
+		window.markerUtils.deactivateAllMarkers();
 	}
 });
 
 document.addEventListener('keydown', (event) => {
 	if (event.key === 'Escape') {
-		document
-			.querySelectorAll('.dynamic-marker.active')
-			.forEach((marker) => {
-				marker.classList.remove('active');
-			});
+		window.markerUtils.deactivateAllMarkers();
 	}
 });
 
-// Remove active class when another .marker element is hovered
-document.querySelectorAll('.marker').forEach((marker) => {
-	marker.addEventListener('mouseover', () => {
-		document
-			.querySelectorAll('.dynamic-marker.active')
-			.forEach((activeMarker) => {
-				activeMarker.classList.remove('active');
-			});
-	});
-});
-
-// Function to attach event listeners to a marker
 function attachMarkerEvents(markerElement, markerData) {
 	markerElement.addEventListener('click', () => {
 		currentMarkerIndex = dynamicMarkers.findIndex(
@@ -158,24 +112,21 @@ function attachMarkerEvents(markerElement, markerData) {
 			descriptionInput.value = markerData.description;
 			dialog.showModal();
 			overlay.style.display = 'block';
-			titleInput.focus(); // Focus on the title input
+			titleInput.focus();
 		}
 	});
 }
 
-// Load dynamic markers from local storage without duplicates
 function loadDynamicMarkers() {
 	const mapName = getMapName();
 	const storageKey = `dynamicMarkers:${mapName}`;
 
 	const storedMarkers = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-	// Clear existing markers
 	dynamicMarkerElements.forEach((marker) => marker.remove());
 	dynamicMarkers = [];
 	dynamicMarkerElements = [];
 
-	// Add unique markers
 	const uniqueMarkers = [];
 	const uniqueTitles = new Set();
 
@@ -187,11 +138,7 @@ function loadDynamicMarkers() {
 		}
 	});
 
-	// Add each unique marker
 	uniqueMarkers.forEach((marker) => {
-		console.log(
-			`Loading marker: ${marker.title} at (${marker.x}, ${marker.y})`
-		);
 		addDynamicMarker(
 			marker.x,
 			marker.y,
@@ -202,14 +149,12 @@ function loadDynamicMarkers() {
 	});
 }
 
-// Save dynamic markers to local storage
 function saveMarkersToLocalStorage() {
 	const mapName = getMapName();
 	const storageKey = `dynamicMarkers:${mapName}`;
 	localStorage.setItem(storageKey, JSON.stringify(dynamicMarkers));
 }
 
-// Recalculate marker positions on window resize
 window.addEventListener('resize', () => {
 	dynamicMarkerElements.forEach((marker, index) => {
 		const { x, y } = dynamicMarkers[index];
@@ -218,36 +163,32 @@ window.addEventListener('resize', () => {
 	});
 });
 
-// Click to add a dynamic marker
 mapContainer.addEventListener('click', (event) => {
 	if (
 		event.target.classList.contains('lat') ||
 		event.target.classList.contains('long')
 	) {
-		return; // Stop execution if clicking lat/long
+		return;
 	}
 
-	event.preventDefault(); // Prevent default behavior
+	event.preventDefault();
 
 	if (currentMarkerIndex === null) {
-		// Only add if not editing
 		const rect = mapContainer.getBoundingClientRect();
 		clickX = ((event.clientX - rect.left) / rect.width) * 100;
 		clickY = ((event.clientY - rect.top) / rect.height) * 100;
 
-		// Prepopulate dialog with coordinates
 		xInput.value = clickX.toFixed(2);
 		yInput.value = clickY.toFixed(2);
-		zInput.value = 0; // Default Z coordinate
+		zInput.value = 0;
 		titleInput.value = '';
 		descriptionInput.value = '';
 		dialog.showModal();
 		overlay.style.display = 'block';
-		titleInput.focus(); // Focus on the title input
+		titleInput.focus();
 	}
 });
 
-// Save marker
 saveMarkerButton.addEventListener('click', () => {
 	const x = parseFloat(xInput.value);
 	const y = parseFloat(yInput.value);
@@ -268,43 +209,30 @@ saveMarkerButton.addEventListener('click', () => {
 	dialog.close();
 	overlay.style.display = 'none';
 	clearDialogInputs();
-	currentMarkerIndex = null; // Reset index
+	currentMarkerIndex = null;
 });
 
-// Delete marker
 deleteMarkerButton.addEventListener('click', () => {
 	if (currentMarkerIndex !== null) {
-		dynamicMarkers.splice(currentMarkerIndex, 1); // Remove marker from array
+		dynamicMarkers.splice(currentMarkerIndex, 1);
 		const markerToRemove = dynamicMarkerElements[currentMarkerIndex];
-		markerToRemove.remove(); // Remove marker from DOM
-		dynamicMarkerElements.splice(currentMarkerIndex, 1); // Remove from markerElements array
-		saveMarkersToLocalStorage(); // Update local storage
+		markerToRemove.remove();
+		dynamicMarkerElements.splice(currentMarkerIndex, 1);
+		saveMarkersToLocalStorage();
 		dialog.close();
 		overlay.style.display = 'none';
 		clearDialogInputs();
-		currentMarkerIndex = null; // Reset index
+		currentMarkerIndex = null;
 	}
 });
 
-// Close dialog when clicking the close button (X)
 document.getElementById('close-dialog').addEventListener('click', () => {
 	dialog.close();
 	overlay.style.display = 'none';
 	clearDialogInputs();
-	currentMarkerIndex = null; // Reset index
+	currentMarkerIndex = null;
 });
 
-// Cancel dialog on escape key
-document.addEventListener('keydown', (event) => {
-	if (event.key === 'Escape') {
-		dialog.close();
-		overlay.style.display = 'none';
-		clearDialogInputs();
-		currentMarkerIndex = null; // Reset index
-	}
-});
-
-// Clear dialog inputs
 function clearDialogInputs() {
 	xInput.value = '';
 	yInput.value = '';
@@ -313,12 +241,10 @@ function clearDialogInputs() {
 	descriptionInput.value = '';
 }
 
-// Save marker with Enter key
 document.addEventListener('keydown', (event) => {
 	if (event.key === 'Enter' && dialog.open) {
 		saveMarkerButton.click();
 	}
 });
 
-// Load dynamic markers on page load
 window.addEventListener('load', loadDynamicMarkers);
