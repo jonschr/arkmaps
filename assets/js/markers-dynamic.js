@@ -269,13 +269,9 @@ function clearDialogInputs() {
 	descriptionInput.value = '';
 }
 
-// Save marker with Cmd/Ctrl + Enter
+// Save marker with Enter key
 document.addEventListener('keydown', (event) => {
-	if (
-		event.key === 'Enter' &&
-		(event.ctrlKey || event.metaKey) &&
-		dialog.open
-	) {
+	if (event.key === 'Enter' && dialog.open) {
 		saveMarkerButton.click();
 	}
 });
