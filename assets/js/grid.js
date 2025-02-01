@@ -34,11 +34,18 @@ function createGrid() {
 		gridContainer.appendChild(line);
 
 		// Create label for the bottom
-		const label = document.createElement('div');
-		label.className = 'grid-label grid-label-bottom';
-		label.style.left = `${(i / gridLines) * 100}%`;
-		label.textContent = i;
-		gridContainer.appendChild(label);
+		const labelBottom = document.createElement('div');
+		labelBottom.className = 'grid-label grid-label-bottom';
+		labelBottom.style.left = `${(i / gridLines) * 100}%`;
+		labelBottom.textContent = i;
+		gridContainer.appendChild(labelBottom);
+
+		// Create label for the top
+		const labelTop = document.createElement('div');
+		labelTop.className = 'grid-label grid-label-top';
+		labelTop.style.left = `${(i / gridLines) * 100}%`;
+		labelTop.textContent = i;
+		gridContainer.appendChild(labelTop);
 	}
 }
 
