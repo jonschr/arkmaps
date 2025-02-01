@@ -20,6 +20,7 @@ p {
 	position: relative;
 	width: 100vw;
 	height: auto; /* Allow height to adjust based on image aspect ratio */
+	overflow: hidden;
 
 	#map {
 		width: 100%; /* Full width */
@@ -47,8 +48,7 @@ p {
 		z-index: 15;
 	}
 
-	.static-marker-label,
-	.dynamic-marker-label {
+	.marker-label {
 		color: white;
 		font-size: 12px;
 		font-weight: normal;
@@ -67,8 +67,7 @@ p {
 		pointer-events: none;
 	}
 
-	.static-marker-label-hover,
-	.dynamic-marker-label-hover {
+	.marker-label-hover {
 		background-color: rgba(0, 0, 0, 0.8);
 		border-radius: 5px;
 		padding: 15px;
@@ -106,7 +105,8 @@ p {
 	}
 
 	&.active .static-marker-label-hover,
-	&.active .dynamic-marker-label-hover {
+	&.active .dynamic-marker-label-hover,
+	&.active .marker-label-hover {
 		pointer-events: all;
 		opacity: 1;
 		z-index: 9999999;

@@ -68,13 +68,13 @@ function addStaticMarker(location, container) {
 
 	// Create label element
 	const label = document.createElement('div');
-	label.className = 'static-marker-label';
+	label.className = 'marker-label static-marker-label';
 	label.textContent = location.label;
 	staticMarker.appendChild(label);
 
 	// Create hover label element
 	const hoverLabel = document.createElement('div');
-	hoverLabel.className = 'static-marker-label-hover';
+	hoverLabel.className = 'marker-label-hover static-marker-label-hover';
 
 	const title = document.createElement('p');
 	title.className = 'title';

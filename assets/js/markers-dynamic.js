@@ -49,13 +49,13 @@ function addDynamicMarker(x, y, z, title, description) {
 
 	// Create label element
 	const label = document.createElement('div');
-	label.className = 'dynamic-marker-label';
+	label.className = 'marker-label dynamic-marker-label';
 	label.textContent = title;
 	dynamicMarker.appendChild(label);
 
 	// Create hover label element
 	const hoverLabel = document.createElement('div');
-	hoverLabel.className = 'dynamic-marker-label-hover';
+	hoverLabel.className = 'marker-label-hover dynamic-marker-label-hover';
 
 	const hoverTitle = document.createElement('p');
 	hoverTitle.className = 'title';
