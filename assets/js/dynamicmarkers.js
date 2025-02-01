@@ -42,29 +42,38 @@ function addDynamicMarker(x, y, z, title, description) {
 
 	// Create a new marker element
 	const dynamicMarker = document.createElement('div');
-	dynamicMarker.className = 'dynamic-marker marker'; // Added generic 'marker' class
+	dynamicMarker.className = 'dynamic-marker';
 	dynamicMarker.style.left = `${(x / 100) * mapContainer.clientWidth}px`;
 	dynamicMarker.style.top = `${(y / 100) * mapContainer.clientHeight}px`;
 	dynamicMarker.title = `${title}: ${description}`;
 
 	// Create label element
 	const label = document.createElement('div');
-	label.className = 'dynamic-marker-label marker-label'; // Added generic 'marker-label' class
+	label.className = 'dynamic-marker-label';
 	label.textContent = title;
 	dynamicMarker.appendChild(label);
 
 	// Create hover label element
 	const hoverLabel = document.createElement('div');
-	hoverLabel.className = 'dynamic-marker-label-hover marker-label-hover'; // Added generic 'marker-label-hover' class
+	hoverLabel.className = 'dynamic-marker-label-hover';
 
 	const hoverTitle = document.createElement('p');
-	hoverTitle.className = 'title marker-title'; // Added generic 'marker-title' class
+	hoverTitle.className = 'title';
 	hoverTitle.textContent = title;
 	hoverLabel.appendChild(hoverTitle);
 
 	const hoverCoords = document.createElement('p');
-	hoverCoords.className = 'coordinates marker-coordinates'; // Added generic 'marker-coordinates' class
-	hoverCoords.textContent = `${x.toFixed(2)}, ${y.toFixed(2)}`;
+	hoverCoords.className = 'coordinates';
+
+	const lat = document.createElement('span');
+	lat.className = 'lat';
+	lat.textContent = `${x.toFixed(2)}`;
+	hoverCoords.appendChild(lat);
+
+	const long = document.createElement('span');
+	long.className = 'long';
+	long.textContent = `${y.toFixed(2)}`;
+	hoverCoords.appendChild(long);
 
 	hoverLabel.appendChild(hoverCoords);
 	dynamicMarker.appendChild(hoverLabel);

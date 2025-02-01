@@ -38,7 +38,7 @@ function processStaticMarkers(container) {
 
 function addStaticMarker(location, container) {
 	const staticMarker = document.createElement('div');
-	staticMarker.className = 'static-marker marker'; // Added generic 'marker' class
+	staticMarker.className = 'static-marker';
 	staticMarker.dataset.lat = location.lat;
 	staticMarker.dataset.long = location.long;
 
@@ -68,22 +68,31 @@ function addStaticMarker(location, container) {
 
 	// Create label element
 	const label = document.createElement('div');
-	label.className = 'static-marker-label marker-label'; // Added generic 'marker-label' class
+	label.className = 'static-marker-label';
 	label.textContent = location.label;
 	staticMarker.appendChild(label);
 
 	// Create hover label element
 	const hoverLabel = document.createElement('div');
-	hoverLabel.className = 'static-marker-label-hover marker-label-hover'; // Added generic 'marker-label-hover' class
+	hoverLabel.className = 'static-marker-label-hover';
 
 	const title = document.createElement('p');
-	title.className = 'title marker-title'; // Added generic 'marker-title' class
+	title.className = 'title';
 	title.textContent = location.label;
 	hoverLabel.appendChild(title);
 
 	const coords = document.createElement('p');
-	coords.className = 'coordinates marker-coordinates'; // Added generic 'marker-coordinates' class
-	coords.textContent = `${location.lat}, ${location.long}`;
+	coords.className = 'coordinates';
+
+	const lat = document.createElement('span');
+	lat.className = 'lat';
+	lat.textContent = `${location.lat}`;
+	coords.appendChild(lat);
+
+	const long = document.createElement('span');
+	long.className = 'long';
+	long.textContent = `${location.long}`;
+	coords.appendChild(long);
 
 	hoverLabel.appendChild(coords);
 	staticMarker.appendChild(hoverLabel);
