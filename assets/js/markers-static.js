@@ -99,15 +99,42 @@ function addStaticMarker(location, container) {
 
 	// Add hover functionality
 	staticMarker.addEventListener('mouseover', () => {
+		// Deactivate any currently active marker
+		document.querySelectorAll('.static-marker.active').forEach((marker) => {
+			if (marker !== staticMarker) {
+				marker.classList.remove('active');
+			}
+		});
+
+		// Activate the current marker
 		staticMarker.classList.add('active');
 	});
 
+	// Prevent `mouseout` from deactivating the marker
+	// (The marker will only deactivate when another marker is hovered or Escape is pressed)
 	staticMarker.addEventListener('mouseout', () => {
-		staticMarker.classList.remove('active');
+		// Do nothing here to keep the marker active
 	});
 
 	container.appendChild(staticMarker);
 }
+
+// Remove active class when clicking outside .static-marker or pressing Esc
+document.addEventListener('click', (event) => {
+	if (!event.target.closest('.static-marker')) {
+		document.querySelectorAll('.static-marker.active').forEach((marker) => {
+			marker.classList.remove('active');
+		});
+	}
+});
+
+document.addEventListener('keydown', (event) => {
+	if (event.key === 'Escape') {
+		document.querySelectorAll('.static-marker.active').forEach((marker) => {
+			marker.classList.remove('active');
+		});
+	}
+});
 
 window.addEventListener('resize', () => {
 	const staticMapContainer = document.getElementById('map-container');
@@ -142,22 +169,5 @@ document.addEventListener('click', (event) => {
 				}, 1000);
 			})
 			.catch((err) => console.error('Failed to copy text: ', err));
-	}
-});
-
-// Remove active class when clicking outside .static-marker or pressing Esc
-document.addEventListener('click', (event) => {
-	if (!event.target.closest('.static-marker')) {
-		document.querySelectorAll('.static-marker.active').forEach((marker) => {
-			marker.classList.remove('active');
-		});
-	}
-});
-
-document.addEventListener('keydown', (event) => {
-	if (event.key === 'Escape') {
-		document.querySelectorAll('.static-marker.active').forEach((marker) => {
-			marker.classList.remove('active');
-		});
 	}
 });

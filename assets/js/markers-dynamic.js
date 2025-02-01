@@ -80,11 +80,23 @@ function addDynamicMarker(x, y, z, title, description) {
 
 	// Add hover functionality
 	dynamicMarker.addEventListener('mouseover', () => {
+		// Deactivate any currently active marker
+		document
+			.querySelectorAll('.dynamic-marker.active')
+			.forEach((marker) => {
+				if (marker !== dynamicMarker) {
+					marker.classList.remove('active');
+				}
+			});
+
+		// Activate the current marker
 		dynamicMarker.classList.add('active');
 	});
 
+	// Prevent `mouseout` from deactivating the marker
+	// (The marker will only deactivate when another marker is hovered or Escape is pressed)
 	dynamicMarker.addEventListener('mouseout', () => {
-		dynamicMarker.classList.remove('active');
+		// Do nothing here to keep the marker active
 	});
 
 	// Attach event listeners to the marker
@@ -96,6 +108,38 @@ function addDynamicMarker(x, y, z, title, description) {
 	dynamicMarkerElements.push(dynamicMarker); // Store the marker element
 	saveMarkersToLocalStorage();
 }
+
+// Remove active class when clicking outside .dynamic-marker or pressing Esc
+document.addEventListener('click', (event) => {
+	if (!event.target.closest('.dynamic-marker')) {
+		document
+			.querySelectorAll('.dynamic-marker.active')
+			.forEach((marker) => {
+				marker.classList.remove('active');
+			});
+	}
+});
+
+document.addEventListener('keydown', (event) => {
+	if (event.key === 'Escape') {
+		document
+			.querySelectorAll('.dynamic-marker.active')
+			.forEach((marker) => {
+				marker.classList.remove('active');
+			});
+	}
+});
+
+// Remove active class when another .marker element is hovered
+document.querySelectorAll('.marker').forEach((marker) => {
+	marker.addEventListener('mouseover', () => {
+		document
+			.querySelectorAll('.dynamic-marker.active')
+			.forEach((activeMarker) => {
+				activeMarker.classList.remove('active');
+			});
+	});
+});
 
 // Function to attach event listeners to a marker
 function attachMarkerEvents(markerElement, markerData) {
